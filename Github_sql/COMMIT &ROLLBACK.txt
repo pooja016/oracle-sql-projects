@@ -1,0 +1,36 @@
+--commit & Rollback
+
+select * from department;
+
+Insert into department
+values(14,'Null');
+
+select department_id,department_name 
+from department
+where department_id=13;
+commit;
+
+update department
+set department_name='Software Testing'
+where department_id =14;
+rollback;
+
+--savepoint
+update  department
+set department_name='Manual Testing'
+where department_id=14;
+
+SAVEPOINT update_done;
+
+insert into department values(15,'Data Engineer');
+
+select * from department
+where department_id IN(14,15);
+
+rollback TO SAVEPOINT update_done;
+rollback;
+
+select * from My_Emp;
+
+delete from My_Emp;
+rollback;

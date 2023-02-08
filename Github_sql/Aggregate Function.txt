@@ -1,0 +1,35 @@
+select manager_id, ROUND(avg(salary),2)AS "Average" , SUM(salary) AS "Total Salary"
+from employee
+group by manager_id
+order by manager_id;
+
+
+select max(salary) AS "Maximum Salary" , MIN(salary) AS "Minimum Salary"
+from employee;
+
+select manager_id,COUNT(*) from employee
+group by manager_id
+order by manager_id;
+
+select manager_id,first_name||''||last_name "Full Name", count(*),min(salary),max(salary)
+from employee
+group by manager_id,first_name,last_name
+order by manager_id,max(salary);
+
+select department_id, product_id,sum(price)
+from product
+where department_id >=4
+group by department_id, product_id
+order by department_id, product_id;
+
+10.having clause
+select manager_id, min(salary)
+from employee
+group by manager_id
+having Min(salary)>60000
+order by min(salary) DESC;
+
+select manager_id, AVG(LENGTH(First_name))
+from employee
+group by manager_id
+order by manager_id;

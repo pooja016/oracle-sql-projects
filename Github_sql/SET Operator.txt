@@ -1,0 +1,28 @@
+--SET Operator
+select department_id
+from department
+UNION
+select department_id 
+from product
+order by department_id;
+
+select department_id 
+from department
+UNION ALL
+select department_id 
+from product;
+
+select department_id
+from employee
+INTERSECT
+select department_id
+from department
+order by department_id;
+
+
+select department_id
+from department
+MINUS
+select department_id
+from employee
+where department_id=2;

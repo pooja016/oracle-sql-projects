@@ -1,0 +1,66 @@
+INNER JOIN:
+select e.employee_id, e.first_name,e.last_name, d.department_name, e.salary, e.hire_date,count(*) ,
+extract(year from e.hire_date) AS Joining_year
+from employee e 
+INNER JOIN department d ON e.department_id=d.department_id
+WHERE e.hire_date Between '1-01-11' AND '26-09-2020'
+GROUP BY e.employee_id, e.first_name,e.last_name,d.department_id, d.department_name,e.salary, e.hire_date
+ORDER BY e.employee_id;
+
+
+LEFT JOIN:
+select c.customer_id, c.first_name,c.last_name,c.address_state,co.order_date ,count(*),
+CASE c.address_state
+WHEN 'NY' THEN 'NORTH'
+END 
+from customer c 
+LEFT JOIN customer_order co ON c.customer_id = co.customer_id
+--WHERE co.order_date is NOT NULL 
+GROUP BY c.customer_id,c.first_name,c.last_name,c.address_state,co.order_date
+ORDER BY c.customer_id;
+
+CROSS JOIN:
+select employee_id, first_name, department_name 
+from employee
+CROSS JOIN department
+ORDER BY employee_id;
+select employee_id, first_name, last_name,salary, hire_date, extract (day from hire_date)AS joining_date ,
+extract(month from hire_date) AS Month_date,
+extract(year from hire_date) AS year_date,
+ADD_months(hire_date, 24) AS two_year,
+ROUND(Months_between(sysdate, hire_date)/12 ) AS Emp_in_Company
+from employee;
+
+--ADDING TWO OR THREE TABLE USING JOINS:
+
+select employee_id, first_name, last_name,salary, salary/100*10 AS Bonus_salary, hire_date, count(*), 
+extract (day from hire_date)AS joining_date ,
+extract(month from hire_date) AS Month_date,
+extract(year from hire_date) AS year_date,
+ADD_months(hire_date, 24) AS two_year,
+ROUND(Months_between(sysdate, hire_date)/12 ) AS Emp_in_Company
+from employee
+where first_name like 'A%' AND salary >40000
+AND hire_date between '20-02-14' and '29-09-15'
+Group by employee_id ,first_name, last_name, salary,hire_date 
+order by employee_id,first_name,last_name,salary,hire_date ;
+
+
+select employee_id, first_name, salary,salary/100*20 AS Bonus_salary,hire_date,count(*),
+extract(month from hire_date) AS Month_date,
+extract(year from hire_date) AS year_date,
+ADD_months(hire_date, 24) AS two_year,
+ROUND(Months_between(sysdate, hire_date)/12 ) AS Emp_in_Company,
+CASE
+WHEN salary >=21000 AND salary <=55000 THEN 'YES'
+WHEN salary > 55000 AND salary <=80000 THEN 'No'
+--WHEN salary > 40000 THEN 'NO'
+Else 'Pending'
+END Bonus_credited
+from employee
+where first_name like 'A%' 
+--AND hire_date Between '1-01-11' AND '26-09-2012'
+Group by employee_id ,first_name, last_name, salary,hire_date
+order by employee_id,first_name,last_name,salary,hire_date ;
+
+
