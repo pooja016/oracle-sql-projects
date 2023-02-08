@@ -1,0 +1,55 @@
+/*
+DROP TABLE customer_order;
+DROP TABLE customer;
+DROP TABLE product;
+DROP TABLE employee;
+DROP TABLE department;
+*/
+
+CREATE TABLE department (
+  department_id NUMBER(5),
+  department_name VARCHAR2(100),
+  CONSTRAINT pk_dept PRIMARY KEY (department_id)
+);
+
+
+CREATE TABLE employee (
+  employee_id NUMBER(5),
+  first_name VARCHAR2(100),
+  last_name VARCHAR2(100),
+  salary NUMBER(8),
+  department_id NUMBER(5),
+  manager_id NUMBER(5),
+  hire_date DATE,
+  CONSTRAINT pk_emp PRIMARY KEY (employee_id),
+  CONSTRAINT fk_emp_dept FOREIGN KEY (department_id) REFERENCES department(department_id)
+);
+
+
+CREATE TABLE product (
+  product_id NUMBER(5),
+  product_name VARCHAR2(100),
+  price NUMBER(10, 2),
+  department_id NUMBER(5),
+  CONSTRAINT pk_prod PRIMARY KEY (product_id),
+  CONSTRAINT fk_prod_dept FOREIGN KEY (department_id) REFERENCES department(department_id)
+);
+
+CREATE TABLE customer (
+  customer_id NUMBER(5),
+  first_name VARCHAR2(100),
+  last_name VARCHAR2(100),
+  address_state VARCHAR2(10),
+  email_address VARCHAR2(350),
+  CONSTRAINT pk_cust PRIMARY KEY (customer_id)
+);
+
+CREATE TABLE customer_order (
+  order_id NUMBER(5),
+  customer_id NUMBER(5),
+  product_id NUMBER(5),
+  order_date DATE,
+  CONSTRAINT pk_order PRIMARY KEY (order_id),
+  CONSTRAINT fk_order_cust FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
+  CONSTRAINT fk_order_prod FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
